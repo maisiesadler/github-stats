@@ -31,4 +31,16 @@ describe('Get PRs', function () {
             expect(result.seconds).to.equal(expectedSeconds)
         })
     })
+
+    it('No closed time returns error', async () => {
+
+        const interactor = new GetTimeToClose()
+
+        const result = interactor.Execute({
+            created_at: '2022-01-08T23:21:44Z',
+            updated_at: '2022-01-09T16:39:02Z',
+        })
+
+        expect(result.error).to.equal('NotClosed')
+    })
 })
