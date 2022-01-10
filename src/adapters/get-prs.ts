@@ -3,7 +3,7 @@ import { HttpClient } from './HttpClient';
 const PAT = process.env.PAT
 
 export interface IGetPrs {
-    Execute(owner: string, repo: string): Promise<{}[]>
+    Execute(owner: string, repo: string): Promise<GetPrsResponse>
 }
 
 interface GhPr {
@@ -17,8 +17,8 @@ interface GhPr {
     user: { login: string },
 }
 
-export class GetPrs implements IGetPrs {
-    public async Execute(owner: string, repo: string): Promise<{
+interface GetPrsResponse {
+    results: {
         number: number,
         state: string,
         title: string,
@@ -27,21 +27,41 @@ export class GetPrs implements IGetPrs {
         updated_at: string,
         closed_at: string,
         merged_at: string,
-    }[]> {
-        const client = new HttpClient("https://api.github.com/repos")
-        const prs = await client.Get<GhPr[]>(`/${owner}/${repo}/pulls?state=all`, PAT)
+    }[]
+}
 
-        return prs.data
-            .map(pr => ({
-                number: pr.number,
-                state: pr.state,
-                title: pr.title,
-                user: pr.user.login,
-                created_at: pr.created_at,
-                updated_at: pr.updated_at,
-                closed_at: pr.closed_at,
-                merged_at: pr.merged_at,
-            }))
+export class GetPrs implements IGetPrs {
+    public async Execute(owner: string, repo: string): Promise<GetPrsResponse> {
+        let page = 1
+        let pageResults = await this.getPage(owner, repo, page)
+        let results = [...pageResults.results]
+
+        while (pageResults.results.length > 0 && page < 5) {
+            pageResults = await this.getPage(owner, repo, page++)
+            console.log(`getting page ${page}, got ${pageResults.results.length} results`)
+            results.push(...pageResults.results)
+        }
+
+        return { results }
+    }
+
+    private async getPage(owner: string, repo: string, page: number): Promise<GetPrsResponse> {
+        const client = new HttpClient("https://api.github.com/repos")
+        const prs = await client.Get<GhPr[]>(`/${owner}/${repo}/pulls?state=closed&per_page=100&page=${page}`, PAT)
+
+        return {
+            results: prs.data
+                .map(pr => ({
+                    number: pr.number,
+                    state: pr.state,
+                    title: pr.title,
+                    user: pr.user.login,
+                    created_at: pr.created_at,
+                    updated_at: pr.updated_at,
+                    closed_at: pr.closed_at,
+                    merged_at: pr.merged_at,
+                })),
+        }
     }
 
     // {
