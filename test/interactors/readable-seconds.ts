@@ -28,6 +28,8 @@ describe('readable seconds', function () {
         { seconds: oneHour + 606, expectedText: '1 hour and 10 minutes and 6 seconds' },
         { seconds: oneHour + 6, expectedText: '1 hour and 6 seconds' },
         { seconds: 6 * oneHour + 6, expectedText: '6 hours and 6 seconds' },
+        { seconds: 26 * oneHour + 6, expectedText: '1 day and 2 hours and 6 seconds' },
+        { seconds: (6 * 24 + 2) * oneHour + 6, expectedText: '6 days and 2 hours and 6 seconds' },
     ].forEach(({ seconds, expectedText }) => {
         it(`Seconds and minutes: ${seconds}`, async () => {
 
