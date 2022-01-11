@@ -38,7 +38,7 @@ export class GetPrs implements IGetPrs {
 
         while (pageResults.results.length > 0 && page < 5) {
             pageResults = await this.getPage(owner, repo, page++)
-            console.log(`getting page ${page}, got ${pageResults.results.length} results`)
+            // console.log(`getting page ${page}, got ${pageResults.results.length} results`)
             results.push(...pageResults.results)
         }
 
