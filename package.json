@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "test": "mocha --require ts-node/register test/**.ts test/**/**.ts"
+    "test": "mocha --require ts-node/register test/**.ts test/**/**.ts",
+    "prs": "tsc && node compiled/index.js prs $npm_config_owner $npm_config_repo"
   },
   "author": "",
   "license": "ISC",

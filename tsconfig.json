@@ -6,7 +6,7 @@
         "preserveConstEnums": true,
         "sourceMap": true,
         "target": "ES6",
-        "outDir": "",
+        "outDir": "compiled",
         "rootDir": "src"
     },
     "include": ["src"],
