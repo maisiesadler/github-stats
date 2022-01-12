@@ -11,7 +11,7 @@ describe('Get PRs', function () {
 
         expect(prFiles.filesChanged).to.equal(18)
         expect(prFiles.totalAdditions).to.equal(351)
-        expect(prFiles.totalChanges).to.equal(157)
-        expect(prFiles.totalDeletions).to.equal(508)
+        expect(prFiles.totalDeletions).to.equal(157)
+        expect(prFiles.totalChanges).to.equal(508)
     });
 });
