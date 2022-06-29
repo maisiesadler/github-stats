@@ -18,8 +18,8 @@ describe('Get PRs', function () {
             '6': 'Link slack token',
             '7': 'Change summary structure'
         }
-        expect(prs.length).to.greaterThanOrEqual(7)
-        prs.forEach(pr => {
+        expect(prs.results.length).to.greaterThanOrEqual(7)
+        prs.results.forEach(pr => {
             if (expected.hasOwnProperty(pr.number))
                 expect(pr.title).to.equal(expected[pr.number])
         })
