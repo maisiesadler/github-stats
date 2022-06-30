@@ -27,7 +27,7 @@ export class GetTimeToCloseVsChangesInterator {
 
     public async Execute(owner: string, repo: string): Promise<{ pr: PrAndChanges; error?: 'NotClosed'; ttc?: number; }[]> {
         const prs = await this.getPrs.Execute(owner, repo);
-        return prs.map(pr => {
+        return prs.filter(pr => pr.merged_at != null).map(pr => {
             const ttc = this.getTimeToClose.Execute(pr);
             if (ttc.error) {
                 return { pr, error: ttc.error };
