@@ -2,10 +2,12 @@ import { GetTimeToClose } from '.';
 
 export interface PrAndChanges {
     changes: {
-        filesChanged: number
-        totalAdditions: number
-        totalDeletions: number
-        totalChanges: number
+        commits: number
+        additions: number
+        deletions: number
+        changed_files: number
+        comments: number
+        review_comments: number
     },
     created_at: string
     updated_at: string

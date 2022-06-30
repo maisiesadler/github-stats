@@ -2,7 +2,7 @@ import { writeFileSync } from "fs";
 import { GetPrs } from "./adapters";
 import { CachingGetPrFiles } from "./adapters/caching_get-pr-files";
 import { CachingGetPrs } from "./adapters/caching_get-prs";
-import { GetPrFiles } from "./adapters/get-pr-files";
+import { GetPrInfo } from "./adapters/get-pr-info";
 import { GetPrsWithChanges } from "./adapters/get-prs-and-changes";
 import { GetTimeToCloseVsChangesInterator, SummarizeTimeToClose } from "./interactors";
 
@@ -19,7 +19,7 @@ async function prsTtcVsChanges(owner: string, repo: string) {
     console.log(`Getting PR summary fo ${owner}/${repo}`)
 
     const getPrs = new CachingGetPrs(new GetPrs())
-    const getPrFiles = new CachingGetPrFiles(new GetPrFiles())
+    const getPrFiles = new CachingGetPrFiles(new GetPrInfo())
     const getPrsWithChanges = new GetPrsWithChanges(getPrs, getPrFiles)
     const interactor = new GetTimeToCloseVsChangesInterator(getPrsWithChanges);
 
@@ -32,11 +32,11 @@ async function prsTtcVsChanges(owner: string, repo: string) {
     const summary = await interactor.Execute(owner, repo)
 
     const lines = [
-        `filesChanged,totalAdditions,totalDeletions,totalChanges,ttc`
+        `additions,deletions,changed_files,commits,comments,review_comments,ttc`
     ]
 
     summary.forEach(({ pr, error, ttc }) => {
-        lines.push(`${pr.changes.filesChanged},${pr.changes.totalAdditions},${pr.changes.totalDeletions},${pr.changes.totalChanges},${ttc}`)
+        lines.push(`${pr.changes.additions},${pr.changes.deletions},${pr.changes.changed_files},${pr.changes.commits},${pr.changes.comments},${pr.changes.review_comments},${ttc}`)
     })
 
     writeFileSync(`ttc_results/${owner}_${repo}.csv`, lines.join('\n'), { encoding: 'utf-8' })

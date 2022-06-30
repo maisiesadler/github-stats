@@ -12,10 +12,12 @@ describe('Time to close vs changes', function () {
         {
             prs: [{
                 changes: {
-                    filesChanged: 7,
-                    totalAdditions: 20,
-                    totalDeletions: 20,
-                    totalChanges: 40
+                    commits: 1,
+                    additions: 10,
+                    deletions: 1,
+                    changed_files: 11,
+                    comments: 12,
+                    review_comments: 12,
                 },
                 created_at: '2021-08-30T06:14:56Z',
                 updated_at: '2021-08-30T06:16:04Z',

@@ -1,12 +1,12 @@
 import { FileCache } from "./FileCache"
-import { IGetPrFiles, GetPrFilesResponse } from "./get-pr-files";
+import { IGetPrInfo, GetPrResponse } from "./get-pr-info";
 
-export class CachingGetPrFiles implements IGetPrFiles {
-    private readonly cache = new FileCache<GetPrFilesResponse>();
-    constructor(private readonly getPrs: IGetPrFiles) {
+export class CachingGetPrFiles implements IGetPrInfo {
+    private readonly cache = new FileCache<GetPrResponse>();
+    constructor(private readonly getPrs: IGetPrInfo) {
     }
 
-    public async Execute(owner: string, repo: string, pullNumber: number): Promise<GetPrFilesResponse> {
+    public async Execute(owner: string, repo: string, pullNumber: number): Promise<GetPrResponse> {
         const cacheKey = `${owner}_${repo}_pr_${pullNumber}.json`
         const { success, value } = this.cache.TryGet(cacheKey)
         if (success) {

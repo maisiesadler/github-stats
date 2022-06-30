@@ -1,11 +1,11 @@
 import { IGetPrsWithChanges, PrAndChanges } from '../interactors';
-import { IGetPrFiles } from './get-pr-files';
+import { IGetPrInfo } from './get-pr-info';
 import { IGetPrs } from './get-prs';
 
 const PAT = process.env.PAT
 
 export class GetPrsWithChanges implements IGetPrsWithChanges {
-    constructor(private readonly getPrs: IGetPrs, private readonly getPrFiles: IGetPrFiles) {
+    constructor(private readonly getPrs: IGetPrs, private readonly getPrFiles: IGetPrInfo) {
 
     }
 
