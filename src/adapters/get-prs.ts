@@ -17,7 +17,7 @@ interface GhPr {
     user: { login: string },
 }
 
-interface GetPrsResponse {
+export interface GetPrsResponse {
     results: {
         number: number,
         state: string,
@@ -36,7 +36,8 @@ export class GetPrs implements IGetPrs {
         let pageResults = await this.getPage(owner, repo, page)
         let results = [...pageResults.results]
 
-        while (pageResults.results.length > 0 && page < 5) {
+        while (pageResults.results.length > 0 && page < 2) {
+            console.log('getting page ' + page)
             pageResults = await this.getPage(owner, repo, ++page)
             results.push(...pageResults.results)
         }

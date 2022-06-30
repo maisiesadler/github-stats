@@ -12,7 +12,7 @@ interface GhPrFile {
     changes: number
 }
 
-interface GetPrFilesResponse {
+export interface GetPrFilesResponse {
     filesChanged: number
     totalAdditions: number
     totalDeletions: number
@@ -21,6 +21,7 @@ interface GetPrFilesResponse {
 
 export class GetPrFiles implements IGetPrFiles {
     public async Execute(owner: string, repo: string, pullNumber: number): Promise<GetPrFilesResponse> {
+        console.log('getting pr ' + pullNumber)
 
         const results = {
             filesChanged: 0,

@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc",
     "test": "mocha --require ts-node/register test/**.ts test/**/**.ts",
-    "prs": "tsc && node compiled/index.js prs $npm_config_repo $npm_config_owner"
+    "prs": "tsc && node compiled/index.js prs $npm_config_repo $npm_config_owner",
+    "ttc": "tsc && node compiled/index.js ttc $npm_config_repo $npm_config_owner"
   },
   "author": "",
   "license": "ISC",
